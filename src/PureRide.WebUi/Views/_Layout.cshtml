@@ -1,0 +1,62 @@
+﻿@using System.Web.UI.HtmlControls
+@inherits UmbracoTemplatePage
+@{
+    Layout = null;
+    var pageTitle = ViewBag.Title ?? @Umbraco.Field("title", "pageName");
+}<!DOCTYPE html lang="en-gb">
+<html>
+<head>
+    <title>@pageTitle | PureRide</title>
+    
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="description" content="@Umbraco.Field("pagedescription", recursive: true)" />
+    <meta name="keywords" content="@Umbraco.Field("pagekeywords", recursive: true)" />
+    <meta property="og:title" content="@pageTitle" />
+    <meta property="og:site_name" content="PureRide" />
+    <meta property="og:description" content="@Umbraco.Field("pagedescription", recursive: true)" />
+    <meta property="og:url"  content="@Request.Url.ToString()" />
+    <meta property="fb:app_id" content="[FB_APP_ID]" />
+    <meta property="og:type" content="article" />
+    <meta property="og:image" content="http://graphics.myfavnews.com/images/logo-100x100.jpg" />
+
+    <meta name="robots" content="NOINDEX, NOFOLLOW">
+    <meta name="robots" content="NOODP,NOYDIR" />
+    
+    <meta name="application-name" content="&nbsp;"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="@Url.Content("content/mstile-144x144.png")" />
+    <meta name="msapplication-square70x70logo" content="@Url.Content("content/mstile-70x70.png")" />
+    <meta name="msapplication-square150x150logo" content="@Url.Content("content/mstile-150x150.png")" />
+    <meta name="msapplication-wide310x150logo" content="@Url.Content("content/mstile-310x150.png")" />
+    <meta name="msapplication-square310x310logo" content="@Url.Content("content/mstile-310x310.png")"/>
+    <link type="text/css" media="screen" rel="stylesheet" href="//@WebSiteSettings.GetCdnRoot()main.min.css?v=@DateTime.Now.Second"/>
+    <script type="application/ld+json">
+        {
+        "@@context": "http://schema.org",
+        "@@type": "Organization",
+        "url": "https://www.pureride.co.uk",
+        "logo": "https://www.pureride.co.uk/@Url.Content("content/logo.png")"
+        }
+    </script>
+</head>
+<body>
+@Html.Partial("GoogleTagManager")
+@Html.Action("SiteEnvironmentNotification", "Home")
+
+
+<header id="header" class="header container">
+    @Html.Partial("TopNavigation")
+</header>
+    
+@RenderBody()
+
+        <footer id="footer" class="footer">
+            @Html.Partial("FooterNavigation")
+        </footer>
+
+        @Html.Action("CookieNotification", "Home")
+   
+</body>
+</html>

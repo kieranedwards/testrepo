@@ -1,0 +1,102 @@
+﻿@using System.Web.Optimization
+@inherits UmbracoViewPage<RenderModel<PureRide.Web.ViewModels.Booking.SeatSelectionModel>>
+@{
+    Layout = "_LayoutContentPage.cshtml";
+}
+
+<style>
+    .tmp_seat {
+        display: inline-block;
+        position: absolute;
+        border-radius: 35px;
+        border: solid 2px;
+        border-color: rgb(92, 92, 96);
+        text-align: center;
+          width: 35px;
+  height: 35px;
+  padding-top: 5px;
+        cursor: pointer;
+        -webkit-box-shadow: 0 2px 2px 0 #C2C2C2;
+box-shadow: 0 2px 2px 0 #C2C2C2;
+    }
+    .tmp_container{width:100%;position:relative;height: 800px;}
+    .clearfix:after { 
+   content: "."; 
+   visibility: hidden; 
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+    .tmp_taken{border-color: rgb(222,212,203);color: rgb(222, 212, 203);cursor: not-allowed;}
+    .tmp_seat_selected{border-color: rgb(255,111,73);background-color:rgb(255,111,73);color: white}
+    .tmp_seat_selected_friend{border-color: rgb(222, 212, 203);color: white;background-color: rgb(191,182,175)}
+
+    .noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+    .temp_hidden{display:none;}
+    .tmp_button_disabled{background-color:red;}
+    .tmp_message{border:1px solid red;}
+        .tmp_instuctor{background-color:pink !important;}
+</style>
+
+@section PageTitle{@Umbraco.Field("PageTitle").ToHtmlString()}
+@section PageSubTitle{@(string.Concat("::", Model.PureRide.Studio.Location, "::"))}
+
+<h2>@Model.PureRide.Studio.Location</h2>
+<h5>@Model.PureRide.Class.RoomName</h5>
+
+<div class="tmp_message">
+
+    @if (Model.PureRide.Message != null && !string.IsNullOrWhiteSpace(Model.PureRide.Message.Message))
+    {
+        <h2>@Model.PureRide.Message.Title</h2>
+        @Model.PureRide.Message.Message
+    }
+    else
+    {
+        @(!Request.IsAuthenticated ? Umbraco.Field("LoginMessage") : Umbraco.Field("SelectSeatMessage"))
+    }
+    
+</div>
+
+<ul class="todo">
+    <li>Message if in the past, future or within a few mins</li>
+    <li>No seats left waiting list message from CMS</li>
+    <li>where to go after booking placed</li>
+    <li>validation polifill http://stackoverflow.com/questions/24610509/create-a-polyfill-for-html5-validation</li>
+    <li>exerp - Place Instructor</li>
+</ul>
+
+<div>
+    <h2>Class Summary</h2>
+    <div>Instructor: @Model.PureRide.Class.InstructorName</div>
+    <div>Time: @Model.PureRide.Class.ClassDate @Model.PureRide.Class.ClassTime</div>
+    <div>Class: @Model.PureRide.Class.ClassName</div>
+    <div>Location: @Model.PureRide.Class.RoomName at @Model.PureRide.Studio.Location</div>
+</div>
+
+
+<div id="content" class="noselect">
+
+    @Html.React("SeatSelectionContainer", new
+    {
+        seats = Model.PureRide.Studio.Seats,
+        creditBalance = Model.PureRide.CreditBalance,
+        recentFriends = Model.PureRide.RecentFriends,
+        locked = Model.PureRide.Class.IsBookingUnavailable || !Request.IsAuthenticated,
+        loginRequired=!Request.IsAuthenticated,
+        classId = Model.PureRide.Class.ClassId
+    })
+
+</div>
+
+@Html.Partial("ReactJs")
+@Scripts.Render("~/bundles/booking")
+@Html.ReactInitJavaScript()

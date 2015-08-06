@@ -1,0 +1,22 @@
+﻿@using PureRide.Web.Controllers.Account
+@model PureRide.Web.ViewModels.Account.AccountLoginModel
+@{this.RetrieveModel();}
+
+@if (Model.IsRecentLogOut)
+{
+    <h2>You have been logged out</h2>
+}
+
+@using (Html.BeginUmbracoForm<LoginController>("FormSubmit"))
+{
+    @Html.ValidationMessageFor(m => m.Email)
+    
+    @Html.AntiForgeryToken()
+    @Html.LabelFor(m => Model.Email)
+    <input type="email" required name="email" id="email" autocomplete="email" autofocus maxlength="@Exerp.Api.Constants.MaxLengthEmail" />
+
+    @Html.LabelFor(m => Model.Password)
+    <input type="password" name="password" required id="password" maxlength="@Exerp.Api.Constants.MaxLengthPassword" />
+
+    <input type="submit" class="btn btn--primary" value="Login" />
+}

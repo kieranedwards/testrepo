@@ -1,0 +1,12 @@
+﻿<div class="menu menu--account">
+    @if (Request.IsAuthenticated)
+    {
+        <a class="menu__link--login" href="/account/">My Account</a>
+        <span> | </span>
+        <a class="menu__link--login" href="/account/login?action=logout">Logout</a>
+    }
+    else
+    {
+        <a class="menu__link--login" href="/account/login?returnUrl=@Url.Encode(Request.Url.PathAndQuery)">Login /</a><a class="menu__link--login" href="/preregister/"> Register</a>
+    }
+</div>

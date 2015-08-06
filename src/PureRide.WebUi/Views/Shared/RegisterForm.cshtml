@@ -1,0 +1,93 @@
+﻿@using PureRide.Web.Controllers.Account
+@model PureRide.Web.ViewModels.Account.RegisterPersonModel
+@{
+    this.RetrieveModel();
+}
+
+<ul class="todo">
+    <li>validation message when passwords do not match</li>
+    <li>Password Strength Indicator</li>
+    <li>T and C in dialog</li>
+    <li>Account Already Exists</li>
+</ul>
+
+@using (Html.BeginUmbracoForm<RegisterController>("FormSubmit"))
+{
+    @Html.AntiForgeryToken()
+    
+    @Html.ValidationMessageFor(m => m.Email)
+    @Html.ValidationMessageFor(m => m.Token)
+
+    @Html.ValidationMessageFor(m => m.FirstName)
+    @Html.LabelFor(m => Model.FirstName)
+    <input type="text" required name="FirstName" id="FirstName" autocomplete="given-name" value="@Model.FirstName" maxlength="@Exerp.Api.Constants.MaxLengthName" />
+
+    @Html.ValidationMessageFor(m => m.LastName)
+    @Html.LabelFor(m => Model.LastName)
+    <input type="text" required name="LastName" id="LastName" autocomplete="family-name" value="@Model.LastName" maxlength="@Exerp.Api.Constants.MaxLengthName" />
+
+    @Html.ValidationMessageFor(m => m.MobilePhoneNumber)
+    @Html.LabelFor(m => Model.MobilePhoneNumber)
+    <input type="tel" required name="MobilePhoneNumber" id="MobilePhoneNumber" autocomplete="tel" title="Please enter a valid uk mobile phone number." pattern="(07|\+44\s?7)\d{9}" value="@Model.MobilePhoneNumber" />
+
+    <input type="radio" name="IsMale" value="true" @(Model.IsMale ? "checked=checked" : "") /> <label>Male</label>
+    <input type="radio" name="IsMale" value="false" @(!Model.IsMale ? "checked=checked" : "") />    <label>Female</label>
+
+    @Html.ValidationMessageFor(m => m.DayOfBirth)
+    @Html.LabelFor(m => Model.DayOfBirth)
+    <select name="DayOfBirth" required>
+        <option value=""></option>
+        @for (int day = 1; day <= 31; day++)
+        {
+            <option @(Model.DayOfBirth == day ? "selected" : "") value="@day">@day</option>
+        }
+    </select>
+
+    <select name="MonthOfBirth" required>
+        <option value=""></option>
+        @for (int month = 1; month <= 12; month++)
+        {
+            <option @(Model.MonthOfBirth == month ? "selected" : "") value="@month">@month</option>
+        }
+    </select>
+
+    <select name="YearOfBirth" required>
+        <option value=""></option>
+        @for (var year = DateTime.Now.Year - 18; year > 1900; year--)
+        {
+            <option @(Model.YearOfBirth == year ? "selected" : "") value="@year">@year</option>
+        }
+    </select>
+
+    @Html.ValidationMessageFor(m => m.ShoeSize)
+    @Html.LabelFor(m => Model.ShoeSize)
+    @Html.DropDownListFor(m => m.ShoeSize, Model.ShoeSizeOptions(), new { required="required" })
+
+     <input type="hidden" name="email" id="email"  value="@Model.Email" />
+    <input type="hidden" name="PID" id="PID" value="@Model.Pid" />
+    <input type="hidden" name="Token" id="Token" value="@Model.Token" />
+
+        @Html.ValidationMessageFor(m => m.Password)
+        @Html.LabelFor(m => Model.Password)
+    <input type="password" name="Password" required id="Password" autocomplete="off" maxlength="@Exerp.Api.Constants.MaxLengthPassword" />
+
+        @Html.ValidationMessageFor(m => m.PasswordConfirm)
+        @Html.LabelFor(m => Model.PasswordConfirm)
+    <input type="password" name="PasswordConfirm" required id="PasswordConfirm" autocomplete="off" maxlength="@Exerp.Api.Constants.MaxLengthPassword"  />
+
+        @Html.ValidationMessageFor(m => m.ReadHealthQuestionnaire)
+    <label for="ReadHealthQuestionnaire">I acknowledge that I have read and agree to the <a href="/account/health-agreement-declaration/" target="_blank">Health Agreement Declaration</a></label>
+        @Html.CheckBoxFor(m => Model.ReadHealthQuestionnaire)
+
+        @Html.ValidationMessageFor(m => m.ReadTerms)
+        <label for="ReadTerms">I acknowledge that I have read and agree to the <a href="/terms-and-conditions/" target="_blank">Terms and Conditions</a></label>
+        @Html.CheckBoxFor(m => Model.ReadTerms)
+
+        <label for="EmailOptIn">I would like to receive email information from selected third parties.</label>
+        @Html.CheckBoxFor(m => Model.EmailOptIn)
+
+        <label for="SmsOptIn">I would like to receive SMS messages</label>
+        @Html.CheckBoxFor(m => Model.SmsOptIn)
+
+    <input type="submit" class="btn btn--primary" value="Register"/>
+}

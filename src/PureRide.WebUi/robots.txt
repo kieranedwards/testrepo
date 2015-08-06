@@ -1,0 +1,11 @@
+﻿# www.robotstxt.org/
+
+# Allow crawling of all content
+#User-agent: *
+#Disallow:
+
+User-agent: *
+Disallow: /
+
+
+Sitemap: https://www.pureride.com/sitemap/

@@ -1,0 +1,16 @@
+﻿@inherits UmbracoTemplatePage
+@{
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+    var menuItems = homePage.Children.Where("shownInFooter == true");
+}
+<p class="footer__text">All images and content are subject to copyright ©2009-@DateTime.Now.Year Pure Gym Limited. All rights reserved.</p>
+<nav id="nav">
+    <ul class="menu menu--footer">
+        @{ var i = 0;  }
+        @foreach (var item in menuItems)
+        {
+            <li class="menu__item"><a class="menu__link--footer menu__link" href="@item.Url">@(i > 0 ? " | " : "") @item.Name</a></li>
+            i += 1;
+        }
+    </ul>
+</nav>

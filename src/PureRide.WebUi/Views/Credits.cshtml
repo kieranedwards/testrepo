@@ -1,0 +1,18 @@
+﻿@inherits UmbracoViewPage<RenderModel<PureRide.Web.ViewModels.Location.LocationsModel>>
+@{
+    Layout = "_LayoutContentPage.cshtml";
+}
+
+
+<ul class="todo">
+    <li>Remember selected location in cookie</li>
+</ul>
+
+@section PageTitle{@Umbraco.Field("PageTitle").ToHtmlString()}
+
+<ul>
+    @foreach (var location in Model.PureRide.Locations)
+    {
+        <li><a href="/@(location.Name.ToStudioSlug())/credits/">@location.Name</a></li>
+    }
+</ul>

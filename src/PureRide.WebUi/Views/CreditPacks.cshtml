@@ -1,0 +1,41 @@
+﻿@using System.Web.Optimization
+@inherits UmbracoViewPage<RenderModel<PureRide.Web.ViewModels.Credits.AvailableCreditPacksModel>>
+@{
+    Layout = "_LayoutContentPage.cshtml";
+    ViewBag.Title = string.Format("{0} - {1} Studio", Umbraco.Field("PageTitle"), Model.PureRide.Location);
+}
+
+
+<style>
+    .tmp_creditpackoffer {
+        background-color: palevioletred;
+    }
+    .tmp_creditpack {
+        border: 1px solid gray;
+        padding: 5px;
+        margin: 20px;
+        cursor: pointer;
+    }
+
+    .tmp_creditpack h2 {
+        margin: 0;
+    }
+</style>
+
+
+@section PageTitle{@Umbraco.Field("PageTitle").ToHtmlString()}
+@section PageSubTitle{@(string.Concat("::", Model.PureRide.Location, "::"))}
+
+<div id="content">
+
+    @Html.React("CreditPackContainer", new
+    {
+        url=string.Concat("/api/credits/" + Model.PureRide.Location.ToStudioSlug()),
+        packs = Model.PureRide.AvailableCreditPacks
+    })
+
+</div>
+
+@Html.Partial("ReactJs")
+@Scripts.Render("~/bundles/credits")
+@Html.ReactInitJavaScript()

@@ -1,0 +1,24 @@
+﻿@using System.Web.Optimization
+@inherits UmbracoViewPage<RenderModel<PureRide.Web.ViewModels.Account.AccountDashboardCoreModel>>
+@{
+    Layout = "_LayoutContentPage.cshtml";
+}
+
+<ul class="todo">
+    <li>List credit hisotry</li>
+    <li>allow cancel booked classes</li>
+    <li>allow reprint of class QA code</li>
+    <li>show status</li>
+</ul>
+
+@section PageTitle{@Umbraco.Field("PageTitle").ToHtmlString()}
+
+
+@Html.React("AccountDashboardContainer", new
+{
+    personalDetails = Model.PureRide
+})
+
+@Html.Partial("ReactJs")
+@Scripts.Render("~/bundles/account")
+@Html.ReactInitJavaScript()

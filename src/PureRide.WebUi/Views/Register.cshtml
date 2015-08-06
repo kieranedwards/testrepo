@@ -1,0 +1,9 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+@{
+    Layout = "_LayoutContentPage.cshtml";
+}
+
+@section PageTitle{@Umbraco.Field("PageTitle").ToHtmlString()}
+
+@Umbraco.Field("bodyText").ToHtmlString() 
+@Html.Action("RegisterForm", "Register")

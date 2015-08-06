@@ -1,0 +1,33 @@
+﻿@inherits UmbracoTemplatePage
+@{
+    var homePage = CurrentPage.AncestorsOrSelf(1).First();
+
+    // The menu items we want are all of the children of the homepage
+    // We also check if "Hide in navigation" is on in the menu, we shouldn't show hidden items
+    var menuItems = homePage.Children.Where("shownInNavigation == true");
+}
+
+<nav id="nav" class="row">
+    <div class="col-md-3 logo">
+        <a href="/">
+            <img class="logo__disc"  src="/Content/logo-spin.png" alt="Pure Ride" />
+            <span class="logo__brandname">Pure Ride</span>
+            <span class="logo__strapline">Clip and Spin</span>
+        </a>
+    </div>
+
+    <div class="col-md-9">
+        <ul class="menu menu--header">
+            @foreach (var item in menuItems)
+            {
+                @* If the Id of the item is the same as the Id of the current page then we want to add the class "current_page_item" *@
+                @* Otherwise, we set the class to null, that way it will not even be added to the <li> element *@
+                <li class="menu__item @(CurrentPage.Id == item.Id ? "menu__item--current" : null)"><a class="menu__link menu__link--header" href="@item.Url">@item.PageTitle</a></li>
+            }
+        </ul>
+    </div>
+
+    @Html.Partial("LoginControl")
+
+</nav>
+

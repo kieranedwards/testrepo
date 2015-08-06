@@ -1,0 +1,24 @@
+﻿@inherits UmbracoTemplatePage
+@{
+    Layout = "_Layout.cshtml";
+  }
+
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>
+                    <span class="page-title__heading">@RenderSection("PageTitle", false)</span>
+                    <span class="page-title__subheading">@RenderSection("PageSubTitle", false)</span>
+                </h1>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+</div>
+
+@RenderSection("OutSideContainer", false)
+
+<div class="container">
+    @RenderBody()
+</div>
